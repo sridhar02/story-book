@@ -42,16 +42,17 @@ const useStoryStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateStory() {
-  const classes = useStoryStyles();
   const history = useHistory();
+  const classes = useStoryStyles();
 
+  const [cost, setCost] = useState("");
   const [summary, setSummary] = useState("");
-  const [description, setDescription] = useState("");
   const [type, setType] = useState("enhancement");
   const [complexity, setcomplexity] = useState("");
-  const [estimatedHrs, setEstimatedHrs] = useState("");
-  const [cost, setCost] = useState("");
   const [showError, setShowError] = useState(false);
+  const [description, setDescription] = useState("");
+  const [estimatedHrs, setEstimatedHrs] = useState("");
+
   const [isLoggedIn] = useState(() => {
     if (
       localStorage.getItem("token") &&
@@ -78,8 +79,6 @@ export default function CreateStory() {
             description,
             type,
             complexity,
-            //   estimatedHrs,
-            //   cost,
           },
           headers: {
             Authorization: token,
@@ -102,7 +101,7 @@ export default function CreateStory() {
       <Navbar />
       <Divider />
       <Typography variant="h4" className={classes.text}>
-        Create Story{" "}
+        Create Story
       </Typography>
       <Divider />
       <form onSubmit={createStory}>
@@ -127,11 +126,11 @@ export default function CreateStory() {
               Please enter the summary and description!
             </Alert>
           )}
-          <InputLabel className={classes.spacing} id="demo-simple-select-label">
+          <InputLabel className={classes.spacing} id="select-type">
             Type
           </InputLabel>
           <NativeSelect
-            id="demo-simple-select"
+            id="select-type"
             value={type}
             onChange={(event) => setType(event.target.value)}
           >
@@ -139,11 +138,11 @@ export default function CreateStory() {
             <option value={"bugfix"}>bugfix</option>
             <option value={"development"}>development</option>
           </NativeSelect>
-          <InputLabel className={classes.spacing} htmlFor="select">
+          <InputLabel className={classes.spacing} htmlFor="select-complexity">
             Complexity
           </InputLabel>
           <NativeSelect
-            id="select"
+            id="select-complexity"
             value={complexity}
             onChange={(event) => setcomplexity(event.target.value)}
           >
@@ -151,21 +150,18 @@ export default function CreateStory() {
             <option value="mid">Mid</option>
             <option value="high">High</option>
           </NativeSelect>
-          <InputLabel
-            className={classes.spacing}
-            htmlFor="standard-adornment-amount"
-          >
+          <InputLabel className={classes.spacing} htmlFor="estimatedHrs">
             Estimated time for completion
           </InputLabel>
           <Input
             className={classes.spacing}
-            id="standard-adornment-weight"
+            id="estimatedHrs"
             value={estimatedHrs}
             onChange={(event) => setEstimatedHrs(event.target.value)}
             endAdornment={<InputAdornment position="end">Hours</InputAdornment>}
-            aria-describedby="standard-weight-helper-text"
+            aria-describedby="estimatedHrs"
             inputProps={{
-              "aria-label": "hours",
+              "aria-label": "estimatedHrs",
             }}
           />
           <InputLabel className={classes.spacing} htmlFor="cost">
