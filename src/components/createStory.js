@@ -38,6 +38,10 @@ const useStoryStyles = makeStyles((theme) => ({
     textAlign: "center",
     padding: theme.spacing(1),
   },
+  padding: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(1),
+  },
 }));
 
 export default function CreateStory() {
@@ -110,7 +114,7 @@ export default function CreateStory() {
             onChange={(event) => setSummary(event.target.value)}
           />
           <TextareaAutosize
-            className={classes.spacing}
+            className={classes.padding}
             aria-label="minimum height"
             rowsMin={10}
             value={description}
@@ -118,7 +122,7 @@ export default function CreateStory() {
             placeholder="Minimum 3 rows"
           />
           {showError && (
-            <Alert severity="error">
+            <Alert severity="error" className={classes.spacing}>
               Please enter the summary and description!
             </Alert>
           )}

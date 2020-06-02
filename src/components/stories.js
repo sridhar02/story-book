@@ -45,11 +45,11 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
   const classes = useStoriesStyles();
   const [type, setType] = useState("All");
   const [rejected] = useState(() => {
-    return localStorage.getItem("rejected") || [];
+    return localStorage.getItem("rejected") || "";
   });
 
   const [accepted] = useState(() => {
-    return localStorage.getItem("accepted") || [];
+    return localStorage.getItem("accepted") || "";
   });
 
   const openStory = (story) => {
@@ -60,6 +60,7 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
     stories &&
     (type === "All" ? stories : stories.filter((story) => story.type === type));
 
+  console.log(rejected);
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -122,7 +123,9 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
                 {role === "Admin" && (
                   <TableCell>
                     <Button className={classes.status}>
-                      {rejected === story.id ? "Rejected" : "Pending"}
+                      {rejected.length !== 0 && rejected === story.id
+                        ? "Rejected"
+                        : "Pending"}
                     </Button>
                   </TableCell>
                 )}
