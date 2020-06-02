@@ -26,6 +26,11 @@ export default function Navbar() {
     history.push("/new");
   };
 
+  const handleSignout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
+
   return (
     <div className={classes.container}>
       <Typography variant="h4">Story Book</Typography>
@@ -33,7 +38,7 @@ export default function Navbar() {
         <Button variant="contained" onClick={newStory}>
           +Create new Story
         </Button>
-        <Button>Logout</Button>
+        <Button onClick={handleSignout}>Logout</Button>
       </div>
     </div>
   );
