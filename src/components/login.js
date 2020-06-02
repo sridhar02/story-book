@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 import Axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -30,6 +30,15 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAdmin, setAdmin] = useState(false);
+  const [isLoggedIn] = useState(() => {
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("token").length !== 0
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -57,6 +66,7 @@ function Login() {
 
   return (
     <div className={classes.container}>
+      {isLoggedIn && <Redirect to="/stories" />}
       <h1>Login to StoryBook</h1>
       <form onSubmit={handleSubmit}>
         <div className={classes.form}>

@@ -34,6 +34,7 @@ const useStoryStyles = makeStyles((theme) => ({
 }));
 
 export default function Story() {
+  const status = React.createContext("pending");
   let { id } = useParams();
   const classes = useStoryStyles();
   const [story, setStory] = useState("");
@@ -56,6 +57,8 @@ export default function Story() {
       console.log(error);
     }
   };
+
+  const rejectedStory = () => {};
 
   useEffect(() => {
     fetchStory();
@@ -113,6 +116,7 @@ export default function Story() {
               color="secondary"
               variant="contained"
               className={classes.cancelButton}
+              onClick={() => rejectedStory()}
             >
               Rejected
             </Button>

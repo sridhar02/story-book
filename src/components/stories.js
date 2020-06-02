@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +10,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Typography, Divider, makeStyles, Button } from "@material-ui/core";
+import ImportExportIcon from "@material-ui/icons/ImportExport";
+import NativeSelect from "@material-ui/core/NativeSelect";
 
 import Navbar from "./navbar";
 
@@ -38,23 +40,51 @@ const useStoriesStyles = makeStyles((theme) => ({
   },
 }));
 
+const Id = "id";
+const Complexity = " Complexity";
+
 function UserTable({ stories, role }) {
   const history = useHistory();
   const classes = useStoriesStyles();
+  const [type, setType] = useState("");
+  const [complexity, setComplexity] = useState("");
 
   const openStory = (story) => {
     history.push(`/story/${story.id}`);
   };
+
+  const filterdArray = stories && stories.map((array) => array.type === type);
+
+  // console.log(filterdArray);
 
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell className={classes.tableHeadCell}>Id</TableCell>
+            <TableCell className={classes.tableHeadCell}>
+              Id
+              <Button>
+                <ImportExportIcon />{" "}
+              </Button>
+            </TableCell>
             <TableCell className={classes.tableHeadCell}>Summary</TableCell>
             <TableCell className={classes.tableHeadCell}>Description</TableCell>
-            <TableCell className={classes.tableHeadCell}>Type</TableCell>
+            <TableCell className={classes.tableHeadCell}>
+              Type
+              <div>
+                <NativeSelect
+                  id="select"
+                  value={type}
+                  onChange={(event) => setType(event.target.value)}
+                >
+                  <option value="">All</option>
+                  <option value={"enhancement"}>enhancement</option>
+                  <option value={"bugfix"}>bugfix</option>
+                  <option value={"development"}>development</option>
+                </NativeSelect>
+              </div>
+            </TableCell>
             <TableCell className={classes.tableHeadCell}>Complexity</TableCell>
             <TableCell className={classes.tableHeadCell}>
               Estimated Hours
@@ -123,6 +153,15 @@ function UserStories({ stories, role }) {
 export default function Stories() {
   const [role, setRole] = useState("");
   const [stories, setStories] = useState("");
+  const [isLoggedIn] = useState(() => {
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("token").length !== 0
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   const fetchStories = async () => {
     const userToken = localStorage.getItem("token");
@@ -149,6 +188,7 @@ export default function Stories() {
 
   return (
     <>
+      {isLoggedIn === false && <Redirect to="/" />}
       <Navbar />
       <Divider />
       {role === "Admin" ? (

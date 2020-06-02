@@ -28,6 +28,7 @@ export default function Navbar() {
 
   const handleSignout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     history.push("/");
   };
 

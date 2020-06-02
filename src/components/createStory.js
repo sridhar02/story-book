@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 import Axios from "axios";
 import {
@@ -14,6 +14,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import NativeSelect from "@material-ui/core/NativeSelect";
+import Alert from "@material-ui/lab/Alert";
 
 import Navbar from "./navbar";
 
@@ -46,43 +47,58 @@ export default function CreateStory() {
 
   const [summary, setSummary] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState("enhancement");
   const [complexity, setcomplexity] = useState("");
   const [estimatedHrs, setEstimatedHrs] = useState("");
   const [cost, setCost] = useState("");
+  const [showError, setShowError] = useState(false);
+  const [isLoggedIn] = useState(() => {
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("token").length !== 0
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   const createStory = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
     console.log(token);
-    try {
-      const response = await Axios({
-        method: "post",
-        url: `http://localhost:3000/api/v1/stories`,
-        data: {
-          summary,
-          description,
-          type,
-          complexity,
-          //   estimatedHrs,
-          //   cost,
-        },
-        headers: {
-          Authorization: token,
-        },
-      });
-      console.log(response);
-      if (response.status === 201) {
-        console.log(response.data);
-        history.push("/stories");
+    if (summary.length === 0 || description.length === 0) {
+      setShowError(true);
+    } else {
+      try {
+        const response = await Axios({
+          method: "post",
+          url: `http://localhost:3000/api/v1/stories`,
+          data: {
+            summary,
+            description,
+            type,
+            complexity,
+            //   estimatedHrs,
+            //   cost,
+          },
+          headers: {
+            Authorization: token,
+          },
+        });
+        console.log(response);
+        if (response.status === 201) {
+          console.log(response.data);
+          history.push("/stories");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   return (
     <div className={classes.container}>
+      {isLoggedIn === false && <Redirect to="/" />}
       <Navbar />
       <Divider />
       <Typography variant="h4" className={classes.text}>
@@ -106,6 +122,11 @@ export default function CreateStory() {
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Minimum 3 rows"
           />
+          {showError && (
+            <Alert severity="error">
+              Please enter the summary and description!
+            </Alert>
+          )}
           <InputLabel className={classes.spacing} id="demo-simple-select-label">
             Type
           </InputLabel>
