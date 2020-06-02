@@ -37,6 +37,7 @@ export default function Story() {
   let { id } = useParams();
   const classes = useStoryStyles();
   const [story, setStory] = useState("");
+  const [role, setRole] = useState("");
 
   const fetchStory = async () => {
     const userToken = localStorage.getItem("token");
@@ -58,6 +59,7 @@ export default function Story() {
 
   useEffect(() => {
     fetchStory();
+    setRole(localStorage.getItem("role"));
   }, []);
 
   console.log(story);
@@ -105,23 +107,24 @@ export default function Story() {
           </label>
           <p className="text-capitalize">$ {story.cost}</p>
         </div>
-
-        <div className={classes.buttons}>
-          <Button
-            color="secondary"
-            variant="contained"
-            className={classes.cancelButton}
-          >
-            Cancel
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            className={classes.saveButton}
-          >
-            Save
-          </Button>
-        </div>
+        {role === "Admin" && (
+          <div className={classes.buttons}>
+            <Button
+              color="secondary"
+              variant="contained"
+              className={classes.cancelButton}
+            >
+              Rejected
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.saveButton}
+            >
+              Accepted
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

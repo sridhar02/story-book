@@ -10,8 +10,12 @@ import {
   InputLabel,
   Input,
   InputAdornment,
+  Typography,
+  Divider,
 } from "@material-ui/core";
 import NativeSelect from "@material-ui/core/NativeSelect";
+
+import Navbar from "./navbar";
 
 const useStoryStyles = makeStyles((theme) => ({
   spacing: {
@@ -29,6 +33,10 @@ const useStoryStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     maxWidth: "900px",
+  },
+  text: {
+    textAlign: "center",
+    padding: theme.spacing(1),
   },
 }));
 
@@ -75,7 +83,12 @@ export default function CreateStory() {
 
   return (
     <div className={classes.container}>
-      <h1>Create Story </h1>
+      <Navbar />
+      <Divider />
+      <Typography variant="h4" className={classes.text}>
+        Create Story{" "}
+      </Typography>
+      <Divider />
       <form onSubmit={createStory}>
         <div className={classes.form}>
           <TextField

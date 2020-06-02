@@ -9,14 +9,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Typography, Divider, makeStyles } from "@material-ui/core";
+import { Typography, Divider, makeStyles, Button } from "@material-ui/core";
 
 import Navbar from "./navbar";
 
 const useStoriesStyles = makeStyles((theme) => ({
   text: {
     textAlign: "center",
-    margin: theme.spacing(1),
+    padding: theme.spacing(2),
   },
   selected: {
     backgroundColor: "#ccc !important",
@@ -29,11 +29,16 @@ const useStoriesStyles = makeStyles((theme) => ({
   },
   tableHeadCell: {
     fontWeight: "bold",
-    fontSize:"18px"
+    fontSize: "18px",
+  },
+  status: {
+    backgroundColor: "#333",
+    color: "white",
+    borderRadius: "10px",
   },
 }));
 
-function UserTable({ stories }) {
+function UserTable({ stories, role }) {
   const history = useHistory();
   const classes = useStoriesStyles();
 
@@ -55,6 +60,9 @@ function UserTable({ stories }) {
               Estimated Hours
             </TableCell>
             <TableCell className={classes.tableHeadCell}>Cost</TableCell>
+            {role === "Admin" && (
+              <TableCell className={classes.tableHeadCell}>status</TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -63,7 +71,6 @@ function UserTable({ stories }) {
               <TableRow
                 key={story.id}
                 onClick={() => openStory(story)}
-                // selected={showButtons === i}
                 className={classes.tableRowSelected}
                 classes={{ selected: classes.selected }}
               >
@@ -74,6 +81,11 @@ function UserTable({ stories }) {
                 <TableCell>{story.complexity}</TableCell>
                 <TableCell>{story.estimatedHrs}</TableCell>
                 <TableCell>{story.cost}</TableCell>
+                {role === "Admin" && (
+                  <TableCell>
+                    <Button className={classes.status}>Pending</Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
         </TableBody>
@@ -82,26 +94,28 @@ function UserTable({ stories }) {
   );
 }
 
-function AdminStories({ stories }) {
+function AdminStories({ stories, role }) {
   const classes = useStoriesStyles();
   return (
     <>
       <Typography className={classes.text} variant="h6">
         Admin Stories
       </Typography>
-      <UserTable stories={stories} />
+      <Divider />
+      <UserTable stories={stories} role={role} />
     </>
   );
 }
 
-function UserStories({ stories }) {
+function UserStories({ stories, role }) {
   const classes = useStoriesStyles();
   return (
     <div>
       <Typography className={classes.text} variant="h6">
         User Stories
       </Typography>
-      <UserTable stories={stories} />
+      <Divider />
+      <UserTable stories={stories} role={role} />
     </div>
   );
 }
@@ -138,9 +152,9 @@ export default function Stories() {
       <Navbar />
       <Divider />
       {role === "Admin" ? (
-        <AdminStories stories={stories} />
+        <AdminStories stories={stories} role={role} />
       ) : (
-        <UserStories stories={stories} />
+        <UserStories stories={stories} role={role} />
       )}
     </>
   );
