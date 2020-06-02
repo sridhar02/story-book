@@ -98,7 +98,7 @@ export default function CreateStory() {
 
   return (
     <div className={classes.container}>
-      {isLoggedIn === false && <Redirect to="/" />}
+      {isLoggedIn && <Redirect to="/" />}
       <Navbar />
       <Divider />
       <Typography variant="h4" className={classes.text}>

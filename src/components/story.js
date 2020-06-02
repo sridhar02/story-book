@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 
 import { Button, Typography, makeStyles, Divider } from "@material-ui/core";
 
@@ -39,6 +39,15 @@ export default function Story() {
   const classes = useStoryStyles();
   const [story, setStory] = useState("");
   const [role, setRole] = useState("");
+  const [isLoggedIn] = useState(() => {
+    if (
+      localStorage.getItem("token") &&
+      localStorage.getItem("token").length !== 0
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   const fetchStory = async () => {
     const userToken = localStorage.getItem("token");
@@ -65,9 +74,9 @@ export default function Story() {
     setRole(localStorage.getItem("role"));
   }, []);
 
-  console.log(story);
   return (
     <div className={classes.container}>
+      {isLoggedIn === false && <Redirect to="/" />}
       <Navbar />
       <Divider />
       <Typography className={classes.text} variant="h4">
