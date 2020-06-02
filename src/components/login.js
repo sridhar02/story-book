@@ -54,9 +54,7 @@ function Login() {
         "http://localhost:3000/api/v1/signin",
         payload
       );
-      console.log(response);
       if (response.status === 200) {
-        console.log(response.data);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
         history.push("/stories");
@@ -69,7 +67,7 @@ function Login() {
   return (
     <div className={classes.container}>
       {isLoggedIn && <Redirect to="/stories" />}
-      <h1>Login to StoryBook</h1>
+      <h1>Login to Story Book</h1>
       <form onSubmit={handleSubmit}>
         <div className={classes.form}>
           <TextField

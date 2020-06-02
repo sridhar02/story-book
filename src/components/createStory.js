@@ -65,7 +65,6 @@ export default function CreateStory() {
   const createStory = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    console.log(token);
     if (summary.length === 0 || description.length === 0) {
       setShowError(true);
     } else {
@@ -83,9 +82,7 @@ export default function CreateStory() {
             Authorization: token,
           },
         });
-        console.log(response);
         if (response.status === 201) {
-          console.log(response.data);
           history.push("/stories");
         }
       } catch (error) {

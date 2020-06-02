@@ -30,25 +30,26 @@ const useStoryStyles = makeStyles((theme) => ({
   },
 }));
 
+function useLocalStorageState(key, defaultValue = "") {
+  const [state, setState] = React.useState(
+    () => window.localStorage.getItem(key) || defaultValue
+  );
+
+  React.useEffect(() => {
+    window.localStorage.setItem(key, state);
+  }, [key, state]);
+
+  return [state, setState];
+}
+
 export default function Story() {
   let { id } = useParams();
   const classes = useStoryStyles();
 
-  function useLocalStorageState(key, defaultValue = []) {
-    const [state, setState] = React.useState(
-      () => window.localStorage.getItem(key) || defaultValue
-    );
-
-    React.useEffect(() => {
-      window.localStorage.setItem(key, state);
-    }, [key, state]);
-
-    return [state, setState];
-  }
-
-  const [rejected, setRejected] = useLocalStorageState("rejected");
   const [role, setRole] = useState("");
   const [story, setStory] = useState("");
+  const [rejected, setRejected] = useLocalStorageState("rejected", []);
+  const [accepted, setAccepted] = useLocalStorageState("accepted", []);
 
   const [isLoggedIn] = useState(() => {
     if (
@@ -79,9 +80,13 @@ export default function Story() {
   };
 
   const rejectedStory = (id) => {
-    // const newArray = [];
-    setRejected(rejected.concat(`${id}`));
-    console.log(localStorage.getItem("rejected"));
+    setRejected(rejected.push(id));
+    console.log(rejected.concat(id));
+  };
+
+  const AcceptedStory = (id) => {
+    let newArray = [...accepted, id];
+    setAccepted(newArray);
   };
 
   useEffect(() => {
@@ -148,6 +153,7 @@ export default function Story() {
               color="primary"
               variant="contained"
               className={classes.saveButton}
+              onClick={() => AcceptedStory(id)}
             >
               Accepted
             </Button>

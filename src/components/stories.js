@@ -44,13 +44,17 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
   const history = useHistory();
   const classes = useStoriesStyles();
   const [type, setType] = useState("All");
+  const [rejected] = useState(() => {
+    return localStorage.getItem("rejected") || [];
+  });
+
+  const [accepted] = useState(() => {
+    return localStorage.getItem("accepted") || [];
+  });
 
   const openStory = (story) => {
     history.push(`/story/${story.id}`);
   };
-
-  const rejected = localStorage.getItem("rejected");
-  console.log(rejected);
 
   const filterdArray =
     stories &&
@@ -218,8 +222,6 @@ export default function Stories() {
     fetchStories();
     setRole(localStorage.getItem("role"));
   }, []);
-
-  console.log(stories);
 
   return (
     <>
