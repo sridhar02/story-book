@@ -25,11 +25,13 @@ const useLoginStyles = makeStyles((theme) => ({
 }));
 
 function Login() {
-  const classes = useLoginStyles();
   const history = useHistory();
+  const classes = useLoginStyles();
+
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isAdmin, setAdmin] = useState(false);
+  const [password, setPassword] = useState("");
+
   const [isLoggedIn] = useState(() => {
     if (
       localStorage.getItem("token") &&

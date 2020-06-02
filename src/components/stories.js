@@ -3,15 +3,15 @@ import Axios from "axios";
 import { useHistory, Redirect } from "react-router-dom";
 
 import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Typography, Divider, makeStyles, Button } from "@material-ui/core";
-import ImportExportIcon from "@material-ui/icons/ImportExport";
+import TableRow from "@material-ui/core/TableRow";
+import TableHead from "@material-ui/core/TableHead";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
 import NativeSelect from "@material-ui/core/NativeSelect";
+import TableContainer from "@material-ui/core/TableContainer";
+import ImportExportIcon from "@material-ui/icons/ImportExport";
+import { Typography, Divider, makeStyles, Button } from "@material-ui/core";
 
 import Navbar from "./navbar";
 
@@ -153,6 +153,7 @@ function UserStories({ stories, role }) {
 export default function Stories() {
   const [role, setRole] = useState("");
   const [stories, setStories] = useState("");
+
   const [isLoggedIn] = useState(() => {
     if (
       localStorage.getItem("token") &&

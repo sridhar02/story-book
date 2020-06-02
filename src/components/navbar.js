@@ -8,7 +8,6 @@ const useNavbarStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     [theme.breakpoints.down("sm")]: {
-      // ustifyContent: "none",
       display: "block",
       marginTop: theme.spacing(1),
     },

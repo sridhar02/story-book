@@ -24,7 +24,6 @@ const useStoryStyles = makeStyles((theme) => ({
   },
   container: {
     display: "flex",
-    // alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
   },
@@ -72,8 +71,8 @@ export default function CreateStory() {
     } else {
       try {
         const response = await Axios({
-          method: "post",
           url: `http://localhost:3000/api/v1/stories`,
+          method: "post",
           data: {
             summary,
             description,

@@ -2,9 +2,8 @@ import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams, Redirect } from "react-router-dom";
 
-import { Button, Typography, makeStyles, Divider } from "@material-ui/core";
-
 import Navbar from "./navbar";
+import { Button, Typography, makeStyles, Divider } from "@material-ui/core";
 
 const useStoryStyles = makeStyles((theme) => ({
   container: {},
@@ -15,8 +14,6 @@ const useStoryStyles = makeStyles((theme) => ({
   storySection: {
     display: "flex",
     flexDirection: "column",
-    // justifyContent: "center",
-    // alignItems: "center",
     maxWidth: "400px",
     border: "1px solid #333",
     padding: theme.spacing(2),
@@ -34,11 +31,12 @@ const useStoryStyles = makeStyles((theme) => ({
 }));
 
 export default function Story() {
-  const status = React.createContext("pending");
   let { id } = useParams();
   const classes = useStoryStyles();
-  const [story, setStory] = useState("");
+
   const [role, setRole] = useState("");
+  const [story, setStory] = useState("");
+
   const [isLoggedIn] = useState(() => {
     if (
       localStorage.getItem("token") &&
@@ -67,8 +65,6 @@ export default function Story() {
     }
   };
 
-  const rejectedStory = () => {};
-
   useEffect(() => {
     fetchStory();
     setRole(localStorage.getItem("role"));
@@ -83,41 +79,41 @@ export default function Story() {
         User Story#{id}
       </Typography>
       <div className={classes.storySection}>
-        <div className="form-group">
-          <label htmlFor="summary">
+        <div>
+          <label>
             <strong>Summary</strong>
           </label>
-          <p className="text-capitalize">{story.summary}</p>
+          <p>{story.summary}</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="description">
+        <div>
+          <label>
             <strong>Description</strong>
           </label>
-          <p className="text-capitalize">{story.description}</p>
+          <p>{story.description}</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="type">
+        <div>
+          <label>
             <strong>Type</strong>
           </label>
-          <p className="text-capitalize">{story.type}</p>
+          <p>{story.type}</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="complexity">
+        <div>
+          <label>
             <strong>complexity</strong>
           </label>
-          <p className="text-capitalize">{story.complexity}</p>
+          <p>{story.complexity}</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="Estimated time for completion">
+        <div>
+          <label>
             <strong>Estimated time for completion</strong>
           </label>
-          <p className="text-capitalize">{story.estimatedHrs}</p>
+          <p>{story.estimatedHrs}</p>
         </div>
-        <div className="form-group">
-          <label htmlFor="cost">
+        <div>
+          <label>
             <strong>Cost</strong>
           </label>
-          <p className="text-capitalize">$ {story.cost}</p>
+          <p>$ {story.cost}</p>
         </div>
         {role === "Admin" && (
           <div className={classes.buttons}>
@@ -125,7 +121,7 @@ export default function Story() {
               color="secondary"
               variant="contained"
               className={classes.cancelButton}
-              onClick={() => rejectedStory()}
+              // onClick={() => rejectedStory()}
             >
               Rejected
             </Button>
