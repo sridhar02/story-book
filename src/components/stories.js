@@ -40,14 +40,10 @@ const useStoriesStyles = makeStyles((theme) => ({
   },
 }));
 
-const Id = "id";
-const Complexity = " Complexity";
-
-function UserTable({ stories, role, setStories }) {
+function UserTable({ stories, role, sortById, sortByComplexity }) {
   const history = useHistory();
   const classes = useStoriesStyles();
   const [type, setType] = useState("All");
-  const [complexity, setComplexity] = useState("");
 
   const openStory = (story) => {
     history.push(`/story/${story.id}`);
@@ -56,10 +52,6 @@ function UserTable({ stories, role, setStories }) {
   const filterdArray =
     stories &&
     (type === "All" ? stories : stories.filter((story) => story.type === type));
-  // setStories(stories.sort((a, b) => (a.id > b.id ? 1 : -1)));
-  // console.log(stories);
-
-  // console.log(stories.sort((a, b) => (a.id > b.id ? 1 : -1)));
 
   return (
     <TableContainer component={Paper}>
@@ -68,7 +60,7 @@ function UserTable({ stories, role, setStories }) {
           <TableRow>
             <TableCell className={classes.tableHeadCell}>
               Id
-              <Button onClick={() => filterdArray()}>
+              <Button onClick={sortById}>
                 <ImportExportIcon />{" "}
               </Button>
             </TableCell>
@@ -91,7 +83,7 @@ function UserTable({ stories, role, setStories }) {
             </TableCell>
             <TableCell className={classes.tableHeadCell}>
               Complexity
-              <Button>
+              <Button onClick={sortByComplexity}>
                 <ImportExportIcon />
               </Button>
             </TableCell>
@@ -133,7 +125,7 @@ function UserTable({ stories, role, setStories }) {
   );
 }
 
-function UserStories({ stories, role, setStories }) {
+function UserStories({ stories, role, sortById, sortByComplexity }) {
   const classes = useStoriesStyles();
 
   return (
@@ -148,7 +140,12 @@ function UserStories({ stories, role, setStories }) {
         </Typography>
       )}
       <Divider />
-      <UserTable stories={stories} role={role} setStories={setStories} />
+      <UserTable
+        stories={stories}
+        role={role}
+        sortById={sortById}
+        sortByComplexity={sortByComplexity}
+      />
     </div>
   );
 }
@@ -156,6 +153,7 @@ function UserStories({ stories, role, setStories }) {
 export default function Stories() {
   const [role, setRole] = useState("");
   const [stories, setStories] = useState("");
+  const [sortOrder, setSortOrder] = useState(false);
 
   const [isLoggedIn] = useState(() => {
     if (
@@ -166,6 +164,32 @@ export default function Stories() {
     }
     return false;
   });
+
+  const sortById = () => {
+    setSortOrder(!sortOrder);
+    sortOrder
+      ? setStories((prevStories) =>
+          prevStories.slice().sort((a, b) => (a.id > b.id ? 1 : -1))
+        )
+      : setStories((prevStories) =>
+          prevStories.slice().sort((a, b) => (a.id > b.id ? -1 : 1))
+        );
+  };
+
+  const sortByComplexity = () => {
+    setSortOrder(!sortOrder);
+    sortOrder
+      ? setStories((prevStories) =>
+          prevStories
+            .slice()
+            .sort((a, b) => (a.complexity > b.complexity ? 1 : -1))
+        )
+      : setStories((prevStories) =>
+          prevStories
+            .slice()
+            .sort((a, b) => (a.complexity > b.complexity ? -1 : 1))
+        );
+  };
 
   const fetchStories = async () => {
     const userToken = localStorage.getItem("token");
@@ -190,12 +214,19 @@ export default function Stories() {
     setRole(localStorage.getItem("role"));
   }, []);
 
+  console.log(stories);
+
   return (
     <>
       {isLoggedIn === false && <Redirect to="/" />}
       <Navbar />
       <Divider />
-      <UserStories stories={stories} role={role} setStories={setStories} />
+      <UserStories
+        stories={stories}
+        role={role}
+        sortById={sortById}
+        sortByComplexity={sortByComplexity}
+      />
     </>
   );
 }
