@@ -13,7 +13,7 @@ function Main() {
       <Switch>
         <Route path="/" component={App} exact />
         <Route path="/stories" component={Stories} exact />
-        <Route path="/new" component={CreateStory} exact />
+        <Route path="/story/new" component={CreateStory} exact />
         <Route path="/story/:id" component={Story} exact />
       </Switch>
     </Router>

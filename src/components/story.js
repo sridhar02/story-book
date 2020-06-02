@@ -34,6 +34,19 @@ export default function Story() {
   let { id } = useParams();
   const classes = useStoryStyles();
 
+  function useLocalStorageState(key, defaultValue = []) {
+    const [state, setState] = React.useState(
+      () => window.localStorage.getItem(key) || defaultValue
+    );
+
+    React.useEffect(() => {
+      window.localStorage.setItem(key, state);
+    }, [key, state]);
+
+    return [state, setState];
+  }
+
+  const [rejected, setRejected] = useLocalStorageState("rejected");
   const [role, setRole] = useState("");
   const [story, setStory] = useState("");
 
@@ -63,6 +76,12 @@ export default function Story() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const rejectedStory = (id) => {
+    // const newArray = [];
+    setRejected(rejected.concat(`${id}`));
+    console.log(localStorage.getItem("rejected"));
   };
 
   useEffect(() => {
@@ -121,7 +140,7 @@ export default function Story() {
               color="secondary"
               variant="contained"
               className={classes.cancelButton}
-              // onClick={() => rejectedStory()}
+              onClick={() => rejectedStory(id)}
             >
               Rejected
             </Button>

@@ -49,6 +49,9 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
     history.push(`/story/${story.id}`);
   };
 
+  const rejected = localStorage.getItem("rejected");
+  console.log(rejected);
+
   const filterdArray =
     stories &&
     (type === "All" ? stories : stories.filter((story) => story.type === type));
@@ -114,7 +117,9 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
                 <TableCell>{story.cost}</TableCell>
                 {role === "Admin" && (
                   <TableCell>
-                    <Button className={classes.status}>Pending</Button>
+                    <Button className={classes.status}>
+                      {rejected === story.id ? "Rejected" : "Pending"}
+                    </Button>
                   </TableCell>
                 )}
               </TableRow>

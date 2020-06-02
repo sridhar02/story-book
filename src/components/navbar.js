@@ -22,7 +22,7 @@ export default function Navbar() {
   const history = useHistory();
 
   const newStory = () => {
-    history.push("/new");
+    history.push("/story/new");
   };
 
   const handleSignout = () => {
