@@ -43,19 +43,23 @@ const useStoriesStyles = makeStyles((theme) => ({
 const Id = "id";
 const Complexity = " Complexity";
 
-function UserTable({ stories, role }) {
+function UserTable({ stories, role, setStories }) {
   const history = useHistory();
   const classes = useStoriesStyles();
-  const [type, setType] = useState("");
+  const [type, setType] = useState("All");
   const [complexity, setComplexity] = useState("");
 
   const openStory = (story) => {
     history.push(`/story/${story.id}`);
   };
 
-  const filterdArray = stories && stories.map((array) => array.type === type);
+  const filterdArray =
+    stories &&
+    (type === "All" ? stories : stories.filter((story) => story.type === type));
+  // setStories(stories.sort((a, b) => (a.id > b.id ? 1 : -1)));
+  // console.log(stories);
 
-  // console.log(filterdArray);
+  // console.log(stories.sort((a, b) => (a.id > b.id ? 1 : -1)));
 
   return (
     <TableContainer component={Paper}>
@@ -64,7 +68,7 @@ function UserTable({ stories, role }) {
           <TableRow>
             <TableCell className={classes.tableHeadCell}>
               Id
-              <Button>
+              <Button onClick={() => filterdArray()}>
                 <ImportExportIcon />{" "}
               </Button>
             </TableCell>
@@ -78,14 +82,19 @@ function UserTable({ stories, role }) {
                   value={type}
                   onChange={(event) => setType(event.target.value)}
                 >
-                  <option value="">All</option>
+                  <option value="All">All</option>
                   <option value={"enhancement"}>enhancement</option>
                   <option value={"bugfix"}>bugfix</option>
                   <option value={"development"}>development</option>
                 </NativeSelect>
               </div>
             </TableCell>
-            <TableCell className={classes.tableHeadCell}>Complexity</TableCell>
+            <TableCell className={classes.tableHeadCell}>
+              Complexity
+              <Button>
+                <ImportExportIcon />
+              </Button>
+            </TableCell>
             <TableCell className={classes.tableHeadCell}>
               Estimated Hours
             </TableCell>
@@ -96,8 +105,8 @@ function UserTable({ stories, role }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {stories &&
-            stories.map((story) => (
+          {filterdArray &&
+            filterdArray.map((story) => (
               <TableRow
                 key={story.id}
                 onClick={() => openStory(story)}
@@ -124,28 +133,22 @@ function UserTable({ stories, role }) {
   );
 }
 
-function AdminStories({ stories, role }) {
+function UserStories({ stories, role, setStories }) {
   const classes = useStoriesStyles();
-  return (
-    <>
-      <Typography className={classes.text} variant="h6">
-        Admin Stories
-      </Typography>
-      <Divider />
-      <UserTable stories={stories} role={role} />
-    </>
-  );
-}
 
-function UserStories({ stories, role }) {
-  const classes = useStoriesStyles();
   return (
     <div>
-      <Typography className={classes.text} variant="h6">
-        User Stories
-      </Typography>
+      {role === "user" ? (
+        <Typography className={classes.text} variant="h6">
+          User Stories
+        </Typography>
+      ) : (
+        <Typography className={classes.text} variant="h6">
+          Admin Stories
+        </Typography>
+      )}
       <Divider />
-      <UserTable stories={stories} role={role} />
+      <UserTable stories={stories} role={role} setStories={setStories} />
     </div>
   );
 }
@@ -192,11 +195,7 @@ export default function Stories() {
       {isLoggedIn === false && <Redirect to="/" />}
       <Navbar />
       <Divider />
-      {role === "Admin" ? (
-        <AdminStories stories={stories} role={role} />
-      ) : (
-        <UserStories stories={stories} role={role} />
-      )}
+      <UserStories stories={stories} role={role} setStories={setStories} />
     </>
   );
 }
