@@ -7,6 +7,7 @@
 * material-ui/lab
 * material-ui/icons
 * react-router-dom
+* cypress
 
 ## Project Overview
 
