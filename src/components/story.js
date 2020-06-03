@@ -31,12 +31,16 @@ const useStoryStyles = makeStyles((theme) => ({
 }));
 
 function useLocalStorageState(key, defaultValue = "") {
-  const [state, setState] = React.useState(
-    () => window.localStorage.getItem(key) || defaultValue
-  );
+  const [state, setState] = React.useState(() => {
+    let rejected = window.localStorage.getItem(key);
+    if (rejected !== null || undefined) {
+      return JSON.parse(window.localStorage.getItem(key)) || defaultValue;
+    }
+    return defaultValue;
+  });
 
   React.useEffect(() => {
-    window.localStorage.setItem(key, state);
+    window.localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 
   return [state, setState];
@@ -82,14 +86,12 @@ export default function Story() {
 
   const rejectedStory = (id) => {
     setRejected(rejected.concat(id));
-    history.push("/stories");
-    console.log(rejected.concat(id));
+    setTimeout(() => history.push("/stories"), 100);
   };
 
   const AcceptedStory = (id) => {
-    let newArray = [...accepted, id];
-    setAccepted(newArray);
-    history.push("/stories");
+    setAccepted(accepted.concat(id));
+    setTimeout(() => history.push("/stories"), 100);
   };
 
   useEffect(() => {
@@ -148,7 +150,7 @@ export default function Story() {
               color="secondary"
               variant="contained"
               className={classes.cancelButton}
-              onClick={() => rejectedStory(id)}
+              onClick={() => rejectedStory(story.id)}
             >
               Rejected
             </Button>
@@ -156,7 +158,7 @@ export default function Story() {
               color="primary"
               variant="contained"
               className={classes.saveButton}
-              onClick={() => AcceptedStory(id)}
+              onClick={() => AcceptedStory(story.id)}
             >
               Accepted
             </Button>

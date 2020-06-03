@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useHistory, Redirect } from "react-router-dom";
 
+import Chip from "@material-ui/core/Chip";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 import TableRow from "@material-ui/core/TableRow";
@@ -34,23 +35,44 @@ const useStoriesStyles = makeStyles((theme) => ({
     fontSize: "18px",
   },
   status: {
-    backgroundColor: "#333",
+    backgroundColor: "red",
     color: "white",
     borderRadius: "10px",
   },
+  pendingChip: {
+    backgroundColor: "black",
+    color: "#fff",
+    fontWeight: "500",
+  },
+  acceptedChip: {
+    backgroundColor: "#28a745",
+    color: "#fff",
+    fontWeight: "500",
+  },
 }));
+
+function StatusButton({ id }) {
+  const classes = useStoriesStyles();
+  const [rejected] = useState(() => {
+    return JSON.parse(localStorage.getItem("rejected")) || [];
+  });
+  const [accepted] = useState(() => {
+    return JSON.parse(localStorage.getItem("accepted")) || [];
+  });
+
+  console.log({ id, accepted, rejected });
+  if (accepted.includes(id)) {
+    return <Chip label="Accepted" className={classes.acceptedChip} />;
+  } else if (rejected.includes(id)) {
+    return <Chip label="Rejected" color="secondary" />;
+  }
+  return <Chip label="Pending" className={classes.pendingChip} />;
+}
 
 function UserTable({ stories, role, sortById, sortByComplexity }) {
   const history = useHistory();
   const classes = useStoriesStyles();
   const [type, setType] = useState("All");
-  const [rejected] = useState(() => {
-    return localStorage.getItem("rejected") || "";
-  });
-
-  const [accepted] = useState(() => {
-    return localStorage.getItem("accepted") || "";
-  });
 
   const openStory = (story) => {
     history.push(`/story/${story.id}`);
@@ -122,11 +144,7 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
                 <TableCell>{story.cost}</TableCell>
                 {role === "Admin" && (
                   <TableCell>
-                    <Button className={classes.status}>
-                      {rejected.length !== 0 && rejected === story.id
-                        ? "Rejected"
-                        : "Pending"}
-                    </Button>
+                    <StatusButton id={story.id} />
                   </TableCell>
                 )}
               </TableRow>
