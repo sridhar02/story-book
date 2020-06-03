@@ -81,6 +81,8 @@ export default function CreateStory() {
             description,
             type,
             complexity,
+            estimatedHrs,
+            cost,
           },
           headers: {
             Authorization: token,
