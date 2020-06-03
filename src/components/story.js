@@ -81,7 +81,7 @@ export default function Story() {
   };
 
   const rejectedStory = (id) => {
-    setRejected(rejected.push(id));
+    setRejected(rejected.concat(id));
     history.push("/stories");
     console.log(rejected.concat(id));
   };
@@ -122,7 +122,7 @@ export default function Story() {
           <label>
             <strong>Type</strong>
           </label>
-          <p>{story.type}</p>
+          <p>{story.type && story.type.toUpperCase()}</p>
         </div>
         <div>
           <label>
