@@ -137,6 +137,7 @@ export default function CreateStory() {
             <option value={"enhancement"}>enhancement</option>
             <option value={"bugfix"}>bugfix</option>
             <option value={"development"}>development</option>
+            <option value={"qa"}>QA</option>
           </NativeSelect>
           <InputLabel className={classes.spacing} htmlFor="select-complexity">
             Complexity

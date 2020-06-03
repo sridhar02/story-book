@@ -86,6 +86,7 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
                   <option value={"enhancement"}>enhancement</option>
                   <option value={"bugfix"}>bugfix</option>
                   <option value={"development"}>development</option>
+                  <option value={"qa"}>QA</option>
                 </NativeSelect>
               </div>
             </TableCell>
