@@ -60,7 +60,6 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
     stories &&
     (type === "All" ? stories : stories.filter((story) => story.type === type));
 
-  console.log(rejected);
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -117,7 +116,7 @@ function UserTable({ stories, role, sortById, sortByComplexity }) {
                 <TableCell>{story.id}</TableCell>
                 <TableCell>{story.summary}</TableCell>
                 <TableCell>{story.description}</TableCell>
-                <TableCell>{story.type}</TableCell>
+                <TableCell>{story.type.toUpperCase()}</TableCell>
                 <TableCell>{story.complexity}</TableCell>
                 <TableCell>{story.estimatedHrs}</TableCell>
                 <TableCell>{story.cost}</TableCell>

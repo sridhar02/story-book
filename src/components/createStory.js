@@ -51,7 +51,7 @@ export default function CreateStory() {
   const [cost, setCost] = useState("");
   const [summary, setSummary] = useState("");
   const [type, setType] = useState("enhancement");
-  const [complexity, setcomplexity] = useState("");
+  const [complexity, setcomplexity] = useState("low");
   const [showError, setShowError] = useState(false);
   const [description, setDescription] = useState("");
   const [estimatedHrs, setEstimatedHrs] = useState("");

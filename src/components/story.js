@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useParams, Redirect } from "react-router-dom";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 
 import Navbar from "./navbar";
 import { Button, Typography, makeStyles, Divider } from "@material-ui/core";
@@ -44,6 +44,7 @@ function useLocalStorageState(key, defaultValue = "") {
 
 export default function Story() {
   let { id } = useParams();
+  const history = useHistory();
   const classes = useStoryStyles();
 
   const [role, setRole] = useState("");
@@ -81,12 +82,14 @@ export default function Story() {
 
   const rejectedStory = (id) => {
     setRejected(rejected.push(id));
+    history.push("/stories");
     console.log(rejected.concat(id));
   };
 
   const AcceptedStory = (id) => {
     let newArray = [...accepted, id];
     setAccepted(newArray);
+    history.push("/stories");
   };
 
   useEffect(() => {
