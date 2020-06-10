@@ -71,7 +71,7 @@ export default function Story() {
     try {
       const response = await Axios({
         method: "get",
-        url: `http://localhost:3000/api/v1/stories/${id}`,
+        url: `${process.env.REACT_APP_BACKEND_API}/api/v1/stories/${id}`,
         headers: {
           Authorization: userToken,
         },
@@ -98,10 +98,7 @@ export default function Story() {
     fetchStory();
     setRole(localStorage.getItem("role"));
   }, []);
-  console.log(
-    typeof rejected,
-    rejected.includes(story.id, accepted.includes(story.id))
-  );
+
   return (
     <div className={classes.container}>
       {isLoggedIn === false && <Redirect to="/" />}
@@ -148,8 +145,6 @@ export default function Story() {
           <p>$ {story.cost}</p>
         </div>
         {role === "Admin" && (
-          // rejected.includes(story.id) &&
-          // accepted.includes(story.id)
           <div className={classes.buttons}>
             <Button
               color="secondary"

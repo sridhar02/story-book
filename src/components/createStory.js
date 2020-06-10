@@ -74,7 +74,7 @@ export default function CreateStory() {
     } else {
       try {
         const response = await Axios({
-          url: `http://localhost:3000/api/v1/stories`,
+          url: `${process.env.REACT_APP_BACKEND_API}/api/v1/stories`,
           method: "post",
           data: {
             summary,

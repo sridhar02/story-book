@@ -60,7 +60,6 @@ function StatusButton({ id }) {
     return JSON.parse(localStorage.getItem("accepted")) || [];
   });
 
-  console.log({ id, accepted, rejected });
   if (accepted.includes(id)) {
     return <Chip label="Accepted" className={classes.acceptedChip} />;
   } else if (rejected.includes(id)) {
@@ -226,7 +225,7 @@ export default function Stories() {
     try {
       const response = await Axios({
         method: "get",
-        url: `http://localhost:3000/api/v1/stories`,
+        url: `${process.env.REACT_APP_BACKEND_API}/api/v1/stories`,
         headers: {
           Authorization: userToken,
         },
