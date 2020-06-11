@@ -50,7 +50,7 @@ function Login() {
       isAdmin,
     };
     try {
-      const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
       if (reg.test(email) === true) {
         const response = await Axios.post(
           `${process.env.REACT_APP_BACKEND_API}/api/v1/signin`,
