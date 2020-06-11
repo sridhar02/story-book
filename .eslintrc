@@ -1,0 +1,17 @@
+{
+  "plugins": ["jsx-a11y", "react-hooks", "prettier"],
+  "rules": {
+    "jsx-a11y/rule-name": 2,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off"
+  },
+  "extends": [
+    "react-app",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
+  ]
+}
+
+
