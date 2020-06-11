@@ -50,14 +50,19 @@ function Login() {
       isAdmin,
     };
     try {
-      const response = await Axios.post(
-        `${process.env.REACT_APP_BACKEND_API}/api/v1/signin`,
-        payload
-      );
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("role", response.data.role);
-        history.push("/stories");
+      const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (reg.test(email) === true) {
+        const response = await Axios.post(
+          `${process.env.REACT_APP_BACKEND_API}/api/v1/signin`,
+          payload
+        );
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("role", response.data.role);
+          history.push("/stories");
+        }
+      } else {
+        alert("Please enter a vaild email address");
       }
     } catch (error) {
       console.log(error);
