@@ -65,7 +65,7 @@ function Login() {
         alert("Please enter a vaild email address");
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

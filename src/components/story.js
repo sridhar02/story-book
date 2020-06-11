@@ -80,7 +80,7 @@ export default function Story() {
         setStory(response.data);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

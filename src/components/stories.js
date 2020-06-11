@@ -234,7 +234,7 @@ export default function Stories() {
         setStories(response.data);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

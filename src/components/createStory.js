@@ -92,7 +92,7 @@ export default function CreateStory() {
           history.push("/stories");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   };
